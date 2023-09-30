@@ -1,1 +1,2 @@
-*[.bak, .save, .aux,. nav, .toc]
+# Ignore files with .bkp extension
+*.bkp
