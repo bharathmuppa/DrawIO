@@ -3,7 +3,7 @@ name: Convert Draw.io to SVG and Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # or the branch you are using
+      - main  # or the branch you are using 
 
 jobs:
   build:
