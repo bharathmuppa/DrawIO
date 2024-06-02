@@ -31,7 +31,7 @@ jobs:
     - name: Convert Draw.io files to SVG
       run: |
         mkdir -p svg_files
-        for file in *.drawio; do
+        for file in drawio/*.drawio; do
           base=$(basename "$file" .drawio)
           xvfb-run --auto-servernum drawio --export --format svg --output "svg_files/${base}.svg" "$file"
         done
