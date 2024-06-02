@@ -30,15 +30,15 @@ jobs:
 
     - name: Convert Draw.io files to SVG
       run: |
-        mkdir -p svg_files
+        mkdir -p converted_html
         for file in drawio/*.drawio; do
           base=$(basename "$file" .drawio)
-          xvfb-run --auto-servernum drawio --export --format svg --output "svg_files/${base}.svg" "$file"
+          xvfb-run --auto-servernum drawio --export --format svg --output "converted_html/${base}.svg" "$file"
         done
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./svg_files
-        publish_branch: gh-pages  # Make sure to use the gh-pages branch for GitHub Pages
+        publish_dir: ./converted_html
+        publish_branch: gh-pages
