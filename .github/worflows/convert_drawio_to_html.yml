@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main  # or the branch you are using
-    paths:
-      - drawio_files/*.drawio
 
 jobs:
   build:
