@@ -1,0 +1,43 @@
+name: Convert Draw.io to HTML and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # or the branch you are using
+    paths:
+      - drawio_files/*.drawio
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install drawio-desktop
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
+        wget https://github.com/jgraph/drawio-desktop/releases/download/v15.8.7/drawio-amd64-15.8.7.deb
+        sudo dpkg -i drawio-amd64-15.8.7.deb
+        sudo apt-get install -f
+
+    - name: Convert Draw.io files to HTML
+      run: |
+        mkdir -p converted_html
+        for file in *.drawio; do
+          base=$(basename "$file" .drawio)
+          xvfb-run --auto-servernum drawio --export --format html --output "converted_html/${base}.html" "$file"
+        done
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./converted_html
