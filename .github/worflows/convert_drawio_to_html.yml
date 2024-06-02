@@ -1,4 +1,4 @@
-name: Convert Draw.io to HTML and Deploy to GitHub Pages
+name: Convert Draw.io to SVG and Deploy to GitHub Pages
 
 on:
   push:
@@ -28,16 +28,16 @@ jobs:
         sudo dpkg -i drawio-amd64-15.8.7.deb
         sudo apt-get install -f
 
-    - name: Convert Draw.io files to HTML
+    - name: Convert Draw.io files to SVG
       run: |
-        mkdir -p converted_html
+        mkdir -p svg_files
         for file in *.drawio; do
           base=$(basename "$file" .drawio)
-          xvfb-run --auto-servernum drawio --export --format html --output "converted_html/${base}.html" "$file"
+          xvfb-run --auto-servernum drawio --export --format svg --output "svg_files/${base}.svg" "$file"
         done
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./converted_html
+        publish_dir: ./svg_files
